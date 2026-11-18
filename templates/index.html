@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Oxford College | AI Attendance Assistant</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="chatbot-page">
+
+    <div class="chat-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="chat-sidebar">
+
+            <div class="chat-brand">
+                <div class="chat-logo">OX</div>
+                <h2>THE OXFORD</h2>
+                <p>COLLEGE OF ENGINEERING</p>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <p class="chat-menu-title">NAVIGATION</p>
+
+            <a href="/teacher" class="chat-nav-link">
+                <span>▦</span> Teacher Dashboard
+            </a>
+
+            <a href="/chatbot" class="chat-nav-link selected">
+                <span>✦</span> AI Attendance Assistant
+            </a>
+
+            <div class="chat-sidebar-bottom">
+                <div class="support-card">
+                    <span>✦</span>
+                    <strong>Attendance Support</strong>
+                    <p>Ask questions about student attendance anytime.</p>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- MAIN CHAT AREA -->
+        <main class="chat-main">
+
+            <header class="chat-topbar">
+                <div>
+                    <p class="chat-college-label">THE OXFORD COLLEGE OF ENGINEERING</p>
+                    <h1>AI Attendance Assistant</h1>
+                    <p class="chat-subtitle">Smart Student Attendance Management System</p>
+                </div>
+
+                <div class="chat-user">
+                    <div class="chat-user-icon">AI</div>
+                    <div>
+                        <strong>Virtual Assistant</strong>
+                        <span><i></i> Online</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CHAT CONTENT -->
+            <section class="chat-content">
+
+                <div class="chat-welcome">
+                    <div class="welcome-icon">✦</div>
+
+                    <h2>Hello! Welcome to Oxford College</h2>
+
+                    <p>
+                        I am your AI Attendance Assistant.
+                        I can help you check student attendance,
+                        attendance percentages and eligibility.
+                    </p>
+                </div>
+
+                <div class="suggestion-heading">
+                    <h3>How can I help you today?</h3>
+                    <p>Choose a question or type your own message.</p>
+                </div>
+
+                <div class="suggestion-grid">
+
+                    <button class="suggestion-card"
+                        onclick="sendSuggestion('What is Sameed attendance?')">
+                        <span>📊</span>
+                        <strong>Check Attendance</strong>
+                        <small>View a student's attendance percentage</small>
+                    </button>
+
+                    <button class="suggestion-card"
+                        onclick="sendSuggestion('What is Rahul attendance?')">
+                        <span>👨‍🎓</span>
+                        <strong>Student Details</strong>
+                        <small>Check student attendance records</small>
+                    </button>
+
+                    <button class="suggestion-card"
+                        onclick="sendSuggestion('What is Priya attendance?')">
+                        <span>📚</span>
+                        <strong>Attendance Status</strong>
+                        <small>Check the student's current status</small>
+                    </button>
+
+                    <button class="suggestion-card"
+                        onclick="sendSuggestion('How many classes do I need to attend?')">
+                        <span>🎯</span>
+                        <strong>Attendance Target</strong>
+                        <small>Understand the 75% attendance requirement</small>
+                    </button>
+
+                </div>
+
+                <!-- MESSAGES -->
+                <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+
+            </section>
+
+            <!-- INPUT AREA -->
+            <footer class="chat-input-area">
+
+                <form id="chatForm" class="chat-input-box">
+
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Ask me about student attendance..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit" id="sendButton">
+                        Send <span>➤</span>
+                    </button>
+
+                </form>
+
+                <p class="chat-disclaimer">
+                    Oxford College AI Attendance Assistant
+                    · Please verify important academic records with your teacher.
+                </p>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script>
+        const chatForm = document.getElementById("chatForm");
+        const messageInput = document.getElementById("messageInput");
+        const chatMessages = document.getElementById("chatMessages");
+        const sendButton = document.getElementById("sendButton");
+
+        function addMessage(message, sender) {
+            const messageRow = document.createElement("div");
+            messageRow.className = "message-row " + sender;
+
+            const bubble = document.createElement("div");
+            bubble.className = "message-bubble";
+            bubble.textContent = message;
+
+            const label = document.createElement("small");
+            label.textContent = sender === "user" ? "You" : "Attendance Assistant";
+
+            const content = document.createElement("div");
+            content.className = "message-content";
+
+            content.appendChild(label);
+            content.appendChild(bubble);
+            messageRow.appendChild(content);
+
+            chatMessages.appendChild(messageRow);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage(message) {
+            message = message.trim();
+
+            if (!message) return;
+
+            addMessage(message, "user");
+
+            messageInput.value = "";
+            sendButton.disabled = true;
+
+            const loading = document.createElement("div");
+            loading.className = "message-row bot";
+            loading.innerHTML = `
+                <div class="message-content">
+                    <small>Attendance Assistant</small>
+                    <div class="message-bubble">Thinking...</div>
+                </div>
+            `;
+
+            chatMessages.appendChild(loading);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+
+                loading.remove();
+
+                if (!response.ok) {
+                    throw new Error("Unable to get a response.");
+                }
+
+                addMessage(
+                    data.reply || "Sorry, I could not understand that question.",
+                    "bot"
+                );
+
+            } catch (error) {
+                loading.remove();
+
+                addMessage(
+                    "Sorry, something went wrong. Please try again.",
+                    "bot"
+                );
+
+            } finally {
+                sendButton.disabled = false;
+                messageInput.focus();
+            }
+        }
+
+        function sendSuggestion(message) {
+            sendMessage(message);
+        }
+
+        chatForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            sendMessage(messageInput.value);
+        });
+    </script>
+
+</body>
+</html>

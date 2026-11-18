@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford College | Attendance Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="college-logo">OX</div>
+            <h2>OXFORD</h2>
+            <p>College of Engineering</p>
+        </div>
+
+        <p class="menu-label">MAIN MENU</p>
+        <nav>
+            <a href="/teacher" class="active">▦ Dashboard</a>
+            <a href="#students">♙ Students</a>
+            <a href="#attendance">✓ Attendance</a>
+            <a href="#reports">▤ Reports</a>
+            <a href="/chatbot">✉ Attendance Chatbot</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/logout">↪ Back to Home</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <div>
+                <p class="eyebrow">THE OXFORD COLLEGE OF ENGINEERING</p>
+                <h1>Attendance Management System</h1>
+                <p class="subtitle">Teacher Dashboard | Academic Monitoring</p>
+            </div>
+            <div class="admin-profile">
+                <div class="profile-icon">T</div>
+                <div>
+                    <strong>Teacher</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <h2>Dashboard Overview</h2>
+                <p>Monitor student attendance and academic participation.</p>
+            </div>
+            <span class="live-status">● System Active</span>
+        </section>
+
+        <section class="dashboard-cards">
+            <div class="dashboard-card">
+                <span class="card-label">Total Students</span>
+                <h2>{{ students|length }}</h2>
+                <p>Registered students</p>
+            </div>
+
+            <div class="dashboard-card">
+                <span class="card-label">Average Attendance</span>
+                <h2>
+                    {% if students|length > 0 %}
+                        {{ (students|sum(attribute='percentage') / students|length)|round(1) }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </h2>
+                <p>Overall student average</p>
+            </div>
+
+            <div class="dashboard-card">
+                <span class="card-label">Eligible Students</span>
+                <h2>{{ students|selectattr('percentage', 'ge', 75)|list|length }}</h2>
+                <p>Attendance 75% or above</p>
+            </div>
+
+            <div class="dashboard-card warning-card">
+                <span class="card-label">Low Attendance</span>
+                <h2>{{ students|selectattr('percentage', 'lt', 75)|list|length }}</h2>
+                <p>Below 75% attendance</p>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="students">
+            <div class="section-heading">
+                <div>
+                    <h2>Student Attendance Details</h2>
+                    <p>Review attendance records of registered students.</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Username</th>
+                            <th>Attended</th>
+                            <th>Total Classes</th>
+                            <th>Percentage</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>#{{ student.id }}</td>
+                            <td><strong>{{ student.name }}</strong></td>
+                            <td>{{ student.username }}</td>
+                            <td>{{ student.attended }}</td>
+                            <td>{{ student.total }}</td>
+                            <td>{{ student.percentage }}%</td>
+                            <td>
+                                {% if student.percentage >= 75 %}
+                                    <span class="status eligible">Eligible</span>
+                                {% else %}
+                                    <span class="status low">Below 75%</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7">No student records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="attendance">
+            <div class="section-heading">
+                <div>
+                    <h2>Update Student Attendance</h2>
+                    <p>Enter the subject-wise attendance information.</p>
+                </div>
+            </div>
+
+            <form action="/teacher/update" method="POST" class="attendance-form">
+
+                <div class="form-group">
+                    <label>Select Student</label>
+                    <select name="student_id" required>
+                        <option value="">Choose a student</option>
+                        {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Subject Name</label>
+                    <input type="text" name="subject" placeholder="Enter subject name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Classes Attended</label>
+                    <input type="number" name="attended" min="0" placeholder="Example: 40" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Classes</label>
+                    <input type="number" name="total" min="0" placeholder="Example: 50" required>
+                </div>
+
+                <button type="submit">Save Attendance</button>
+            </form>
+        </section>
+
+        <section class="dashboard-section" id="reports">
+            <div class="section-heading">
+                <div>
+                    <h2>Attendance Alerts</h2>
+                    <p>Students who need attendance improvement.</p>
+                </div>
+            </div>
+
+            <div class="alerts-list">
+                {% for student in students if student.percentage < 75 %}
+                <div class="alert-item">
+                    <div>
+                        <strong>{{ student.name }}</strong>
+                        <p>Attendance is below the required 75%.</p>
+                    </div>
+                    <span class="status low">{{ student.percentage }}%</span>
+                </div>
+                {% else %}
+                <p class="no-alerts">No students are currently below 75% attendance.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>© 2026 The Oxford College of Engineering | Attendance Management System</p>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

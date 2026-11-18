@@ -1,0 +1,890 @@
+
+/* ==========================================
+   THE OXFORD COLLEGE OF ENGINEERING
+   ATTENDANCE MANAGEMENT SYSTEM
+   COMPLETE PROFESSIONAL DESIGN
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f3f6fb;
+    color: #1e293b;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ==========================================
+   TEACHER DASHBOARD
+========================================== */
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: #142d4e;
+    color: white;
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-brand {
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #35506d;
+}
+
+.college-logo {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 12px;
+    border: 2px solid #d6b66b;
+    color: #f2d58d;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.sidebar-brand h2 {
+    margin: 0;
+    letter-spacing: 3px;
+    font-size: 21px;
+}
+
+.sidebar-brand p {
+    color: #cbd5e1;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.menu-label {
+    color: #9fb1c7;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin: 30px 10px 12px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar nav a,
+.sidebar-bottom a {
+    color: #dbe5f1;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: block;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    background: #29496c;
+    color: white;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 30px;
+}
+
+/* MAIN DASHBOARD */
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+}
+
+.top-header {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 3px 15px rgba(15, 23, 42, 0.04);
+}
+
+.eyebrow {
+    color: #a17a2c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    margin: 0 0 8px;
+}
+
+.top-header h1 {
+    font-size: 25px;
+    margin: 0;
+    color: #142d4e;
+}
+
+.subtitle {
+    color: #64748b;
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-profile small {
+    display: block;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.profile-icon {
+    background: #e7edf6;
+    color: #142d4e;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+/* OVERVIEW */
+
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0 20px;
+    gap: 15px;
+}
+
+.welcome-section h2,
+.section-heading h2 {
+    margin: 0 0 7px;
+    color: #142d4e;
+    font-size: 20px;
+}
+
+.welcome-section p,
+.section-heading p {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0;
+}
+
+.live-status {
+    color: #16834b;
+    background: #e7f7ee;
+    padding: 9px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* DASHBOARD CARDS */
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    border: 1px solid #e7edf4;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+    transition: 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(15, 23, 42, 0.07);
+}
+
+.card-label {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.dashboard-card h2 {
+    color: #142d4e;
+    font-size: 29px;
+    margin: 15px 0 5px;
+}
+
+.dashboard-card p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 0;
+}
+
+.warning-card h2 {
+    color: #dc6b36;
+}
+
+/* DASHBOARD SECTIONS */
+
+.dashboard-section {
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e7edf4;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+}
+
+.section-heading {
+    margin-bottom: 22px;
+}
+
+/* STUDENT TABLE */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th {
+    text-align: left;
+    padding: 14px;
+    color: #64748b;
+    background: #f5f7fb;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #edf1f5;
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+.status {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.eligible {
+    color: #16834b;
+    background: #e7f7ee;
+}
+
+.low {
+    color: #c34c38;
+    background: #fff0ed;
+}
+
+/* ATTENDANCE FORM */
+
+.attendance-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #dce3ed;
+    border-radius: 7px;
+    font-size: 13px;
+    background: white;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #315d8a;
+    box-shadow: 0 0 0 3px rgba(49, 93, 138, 0.1);
+}
+
+.attendance-form button {
+    background: #173b62;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    grid-column: 1 / -1;
+}
+
+.attendance-form button:hover {
+    background: #245681;
+}
+
+/* ALERTS */
+
+.alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #fff8f6;
+    border: 1px solid #f9e4df;
+    border-radius: 8px;
+}
+
+.alert-item p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.no-alerts {
+    color: #16834b;
+    background: #e7f7ee;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.dashboard-footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 25px 0 5px;
+}
+
+/* ==========================================
+   OXFORD COLLEGE AI CHATBOT
+========================================== */
+
+.chatbot-page {
+    margin: 0;
+    background: #f3f6fb;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1e293b;
+}
+
+.chat-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* CHAT SIDEBAR */
+
+.chat-sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #142d4e;
+    color: white;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.chat-brand {
+    text-align: center;
+    padding: 10px 0 25px;
+}
+
+.chat-logo {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 14px;
+    border: 2px solid #d9bb77;
+    border-radius: 50%;
+    color: #f1d58f;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.chat-brand h2 {
+    margin: 0;
+    letter-spacing: 3px;
+    font-size: 20px;
+}
+
+.chat-brand p {
+    font-size: 10px;
+    letter-spacing: 1.3px;
+    color: #cbd5e1;
+    margin-top: 8px;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: #35506d;
+    margin: 8px 0 25px;
+}
+
+.chat-menu-title {
+    color: #9fb1c7;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin: 0 0 15px 8px;
+}
+
+.chat-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    color: #dbe5f1;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.chat-nav-link span {
+    font-size: 19px;
+}
+
+.chat-nav-link:hover,
+.chat-nav-link.selected {
+    background: #29496c;
+    color: white;
+}
+
+.chat-sidebar-bottom {
+    margin-top: auto;
+}
+
+.support-card {
+    background: #203d5d;
+    padding: 17px;
+    border-radius: 10px;
+}
+
+.support-card span {
+    color: #e6c77d;
+    font-size: 22px;
+}
+
+.support-card strong {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.support-card p {
+    color: #bdcddd;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* CHAT HEADER */
+
+.chat-main {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-topbar {
+    background: white;
+    padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #e8edf4;
+}
+
+.chat-college-label {
+    color: #a17a2c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    margin: 0 0 8px;
+}
+
+.chat-topbar h1 {
+    color: #142d4e;
+    font-size: 24px;
+    margin: 0;
+}
+
+.chat-subtitle {
+    color: #64748b;
+    font-size: 13px;
+    margin: 7px 0 0;
+}
+
+.chat-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+}
+
+.chat-user-icon {
+    width: 43px;
+    height: 43px;
+    background: #e8eef7;
+    color: #173b62;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.chat-user strong {
+    display: block;
+    font-size: 13px;
+}
+
+.chat-user span {
+    display: block;
+    font-size: 11px;
+    color: #16834b;
+    margin-top: 5px;
+}
+
+.chat-user span i {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #16a35b;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+/* CHAT WELCOME */
+
+.chat-content {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 45px 35px 25px;
+    flex: 1;
+}
+
+.chat-welcome {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 35px;
+}
+
+.welcome-icon {
+    width: 65px;
+    height: 65px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 18px;
+    border-radius: 20px;
+    background: #e6edf7;
+    color: #173b62;
+    font-size: 32px;
+}
+
+.chat-welcome h2 {
+    color: #142d4e;
+    font-size: 25px;
+    margin: 0 0 12px;
+}
+
+.chat-welcome p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* CHAT SUGGESTIONS */
+
+.suggestion-heading {
+    margin-bottom: 16px;
+}
+
+.suggestion-heading h3 {
+    color: #142d4e;
+    font-size: 16px;
+    margin: 0 0 5px;
+}
+
+.suggestion-heading p {
+    color: #8290a3;
+    font-size: 12px;
+    margin: 0;
+}
+
+.suggestion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.suggestion-card {
+    text-align: left;
+    background: white;
+    border: 1px solid #e3eaf3;
+    border-radius: 11px;
+    padding: 19px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.suggestion-card:hover {
+    border-color: #597da5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(20, 45, 78, 0.08);
+}
+
+.suggestion-card span {
+    display: block;
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.suggestion-card strong {
+    display: block;
+    color: #203b5c;
+    font-size: 14px;
+}
+
+.suggestion-card small {
+    display: block;
+    color: #8290a3;
+    margin-top: 7px;
+    font-size: 12px;
+}
+
+/* CHAT MESSAGES */
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 30px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.message-row {
+    display: flex;
+    width: 100%;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-row.bot {
+    justify-content: flex-start;
+}
+
+.message-content {
+    max-width: 75%;
+}
+
+.message-content small {
+    display: block;
+    color: #8290a3;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.message-row.user .message-content small {
+    text-align: right;
+}
+
+.message-bubble {
+    background: white;
+    color: #334155;
+    padding: 13px 17px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf1;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.message-row.user .message-bubble {
+    background: #173b62;
+    color: white;
+    border: none;
+    border-bottom-right-radius: 3px;
+}
+
+.message-row.bot .message-bubble {
+    border-bottom-left-radius: 3px;
+}
+
+/* CHAT INPUT */
+
+.chat-input-area {
+    background: white;
+    padding: 20px 35px 15px;
+    border-top: 1px solid #e8edf4;
+}
+
+.chat-input-box {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 7px;
+    background: #f5f7fa;
+    border: 1px solid #dce4ef;
+    border-radius: 12px;
+    gap: 10px;
+}
+
+.chat-input-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 12px;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.chat-input-box button {
+    border: none;
+    background: #173b62;
+    color: white;
+    padding: 12px 23px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.chat-input-box button:hover {
+    background: #245681;
+}
+
+.chat-input-box button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chat-disclaimer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 11px;
+    margin: 13px 0 0;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 1000px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+
+    .dashboard,
+    .chat-layout {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .chat-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .top-header,
+    .welcome-section {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .attendance-form {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-topbar {
+        padding: 20px;
+        flex-wrap: wrap;
+    }
+
+    .chat-topbar h1 {
+        font-size: 20px;
+    }
+
+    .chat-content {
+        padding: 30px 17px;
+    }
+
+    .suggestion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-input-area {
+        padding: 15px;
+    }
+
+    .chat-user {
+        display: none;
+    }
+}
